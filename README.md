@@ -2,21 +2,12 @@
 
 This project fine-tunes a pre-trained BERT model to classify college fest feedback into *Positive, **Neutral, or **Negative* sentiments. It uses Hugging Face Transformers, PyTorch, and Scikit-learn. The code is written in a clean and minimal way, with optimizations applied to reduce training time without sacrificing accuracy.
 
----
-
-## 📁 Files
-
-- train_sentiment_model.py: Script to train and test the model.
-- model.pkl, tokenizer.pkl: Trained BERT model and tokenizer (not included here due to size).
-- college_fest_feedback_large_unique.csv: Labeled training data.
-- college_fest_feedback_test_unique.csv: Test data.
-- README.md: You're reading this.
 
 ---
 
-## 🚀 How the Code Works
+How the Code Works
 
-### 1. Load the Dataset
+Load the Dataset
 
 The dataset contains event feedback with labels like "Positive", "Neutral", or "Negative". These are mapped to integer values for training (0 = Negative, 1 = Neutral, 2 = Positive).
 
@@ -27,7 +18,7 @@ test_df = pd.read_csv("college_fest_feedback_test_unique.csv")
 
 ---
 
-### 2. Tokenization
+Tokenization
 
 We use the bert-base-uncased tokenizer to tokenize feedback comments. Padding and truncation ensure consistent length.
 
@@ -37,13 +28,13 @@ tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 
 ---
 
-### 3. PyTorch Dataset
+PyTorch Dataset
 
 A custom PyTorch dataset class wraps the encoded inputs and labels, making them compatible with Hugging Face’s Trainer.
 
 ---
 
-### 4. Load Pre-trained BERT
+Load Pre-trained BERT
 
 We use a pre-trained BERT model with a classification head configured for 3 classes.
 
@@ -53,7 +44,7 @@ model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_l
 
 ---
 
-### 5. Training the Model
+Training the Model
 
 Training is done using Hugging Face’s Trainer. The training arguments were customized to speed up training:
 
@@ -71,7 +62,7 @@ training_args = TrainingArguments(
 )
 
 
-✅ *Customizations Done:*
+*Customizations Done:*
 - *Batch size increased to 16* to reduce training steps per epoch.
 - *Fewer epochs (3)* to prevent overfitting while reducing time.
 - *Balanced weight decay (0.1)* to maintain regularization.
@@ -80,7 +71,7 @@ training_args = TrainingArguments(
 
 ---
 
-### 6. Evaluation
+Evaluation
 
 The model is evaluated using accuracy:
 
@@ -95,7 +86,7 @@ Test Accuracy: 0.8972
 
 ---
 
-### 7. Save Model & Tokenizer
+Save Model & Tokenizer
 
 The trained model and tokenizer are saved using joblib:
 
@@ -106,7 +97,7 @@ joblib.dump(tokenizer, "tokenizer.pkl")
 
 ---
 
-### 8. Predict New Feedback
+Predict New Feedback
 
 You can load the model later and run sentiment predictions on new text:
 
@@ -122,7 +113,7 @@ def predict_sentiment(text):
 
 ---
 
-## 🧪 Requirements
+Requirements
 
 Install the dependencies using:
 
@@ -132,7 +123,7 @@ pip install torch transformers datasets scikit-learn pandas joblib
 
 ---
 
-## 📌 Future Improvements
+Future Improvements
 
 - Add web API using FastAPI or Flask.
 - Streamlit-based interactive demo.
@@ -141,7 +132,7 @@ pip install torch transformers datasets scikit-learn pandas joblib
 
 ---
 
-## 🙌 Author
+Author
 
 *Utkarsh Gabhne*  
 Built and fine-tuned a custom BERT-based sentiment classifier with optimized training logic for speed and performance.
