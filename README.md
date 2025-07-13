@@ -22,8 +22,9 @@ Tokenization
 
 We use the bert-base-uncased tokenizer to tokenize feedback comments. Padding and truncation ensure consistent length.
 
-python
+'''python
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+'''
 
 
 ---
@@ -38,8 +39,9 @@ Load Pre-trained BERT
 
 We use a pre-trained BERT model with a classification head configured for 3 classes.
 
-python
+'''python
 model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=3)
+'''
 
 
 ---
@@ -48,7 +50,7 @@ Training the Model
 
 Training is done using Hugging Face’s Trainer. The training arguments were customized to speed up training:
 
-python
+'''python
 training_args = TrainingArguments(
     output_dir="./results",
     evaluation_strategy="epoch",
@@ -59,7 +61,7 @@ training_args = TrainingArguments(
     num_train_epochs=3,
     weight_decay=0.1,
     logging_dir="./logs"
-)
+)'''
 
 
 *Customizations Done:*
@@ -75,8 +77,8 @@ Evaluation
 
 The model is evaluated using accuracy:
 
-python
-accuracy = accuracy_score(test_labels, preds)
+'''python
+accuracy = accuracy_score(test_labels, preds)'''
 
 
 Example Output:
@@ -90,9 +92,9 @@ Save Model & Tokenizer
 
 The trained model and tokenizer are saved using joblib:
 
-python
+'''python
 joblib.dump(model, "model.pkl")
-joblib.dump(tokenizer, "tokenizer.pkl")
+joblib.dump(tokenizer, "tokenizer.pkl")'''
 
 
 ---
@@ -101,7 +103,7 @@ Predict New Feedback
 
 You can load the model later and run sentiment predictions on new text:
 
-python
+'''python
 def predict_sentiment(text):
     inputs = tokenizer(text, padding="max_length", truncation=True, max_length=256, return_tensors="pt")
     inputs = {key: val.to(model.device) for key, val in inputs.items()}
@@ -109,6 +111,7 @@ def predict_sentiment(text):
         output = model(**inputs)
     prediction = torch.argmax(output.logits, dim=1).item()
     return ["Negative", "Neutral", "Positive"][prediction]
+'''
 
 
 ---
@@ -134,5 +137,5 @@ Future Improvements
 
 Author
 
-*Utkarsh Gabhne*  
+*Disha Pancholi*  
 Built and fine-tuned a custom BERT-based sentiment classifier with optimized training logic for speed and performance.
